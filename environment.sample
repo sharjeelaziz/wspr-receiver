@@ -1,0 +1,6 @@
+CALL="K0DEV"
+GAIN="-a 1"
+LOCATOR="FM18jv"
+WSPR_RECV_PATH="/home/pi/wspr-receiver"
+LOGPATH="/home/pi/wspr-receiver/wsprd-log/wsprd"
+RTLSDR_WSPRD_PATH="/home/pi/rtlsdr-wsprd"

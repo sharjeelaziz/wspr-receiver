@@ -1,0 +1,12 @@
+00 17,23 * * * $WSPR_RECV_PATH/kill-existing.sh && $WSPR_RECV_PATH/30m.sh
+00 19,00 * * * $WSPR_RECV_PATH/kill-existing.sh && $WSPR_RECV_PATH/40m.sh
+00 20,01 * * * $WSPR_RECV_PATH/kill-existing.sh && $WSPR_RECV_PATH/60m.sh
+00 21,02 * * * $WSPR_RECV_PATH/kill-existing.sh && $WSPR_RECV_PATH/80m.sh
+00 22,03 * * * $WSPR_RECV_PATH/kill-existing.sh && $WSPR_RECV_PATH/160m.sh
+00 04 * * * $WSPR_RECV_PATH/kill-existing.sh && $WSPR_RECV_PATH/start-transmit.sh
+00 05,11 * * * $WSPR_RECV_PATH/kill-existing.sh && $WSPR_RECV_PATH/20m.sh
+00 06,12 * * * $WSPR_RECV_PATH/kill-existing.sh && $WSPR_RECV_PATH/17m.sh
+00 07,13 * * * $WSPR_RECV_PATH/kill-existing.sh && $WSPR_RECV_PATH/15m.sh
+00 08,14 * * * $WSPR_RECV_PATH/kill-existing.sh && $WSPR_RECV_PATH/10m.sh
+00 09,15 * * * $WSPR_RECV_PATH/kill-existing.sh && $WSPR_RECV_PATH/6m.sh
+00 10,16 * * * $WSPR_RECV_PATH/kill-existing.sh && $WSPR_RECV_PATH/start-transmit.sh
