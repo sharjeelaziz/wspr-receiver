@@ -65,7 +65,7 @@ $ ./rtlsdr_wsprd -f 14.0956M -c <your-callsign> -l <your-grid-locator> -d 2 -S
 
 ## Multiple band switching with cron jobs
 
- 1. Update and ad the information in ```environment.sample``` file to ```/etc/environment```. This makes the environment variable accessible to the scripts executed by cron.
+ 1. Update and add the information in ```environment.sample``` file to ```/etc/environment```. This makes the environment variable accessible to the scripts executed by cron.
  ```
   CALL="K0DEV"
   GAIN="-a 1"

@@ -1,2 +1,2 @@
 #!/bin/bash
-wspr --repeat "$CALL" "$LOCATOR" 20 20m &>> "$LOGPATH" &
+/usr/local/bin/wspr --repeat "$CALL" "$LOCATOR" 20 20m &>> "$LOGPATH" &
