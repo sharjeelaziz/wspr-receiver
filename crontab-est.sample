@@ -1,0 +1,62 @@
+# Frequency: 7.0386M
+# Band: 40 meters
+# Optimal Time: Evening to morning (20:00 - 09:00 EST)
+00 01 * * * $WSPR_RECV_PATH/kill-receive.sh && $WSPR_RECV_PATH/wspr-receiver.sh 7.0386M "40 meters"
+
+# Frequency: 5.2872M
+# Band: 60 meters
+# Optimal Time: Late evening to early morning (22:00 - 06:00 EST)
+00 03 * * * $WSPR_RECV_PATH/kill-receive.sh && $WSPR_RECV_PATH/wspr-receiver.sh 5.2872M "60 meters"
+
+# Frequency: 1.8366M
+# Band: 160 meters
+# Optimal Time: Midnight to early morning (00:00 - 06:00 EST)
+00 05 * * * $WSPR_RECV_PATH/kill-receive.sh && $WSPR_RECV_PATH/wspr-receiver.sh 1.8366M "160 meters"
+
+# Frequency: 3.5686M
+# Band: 80 meters
+# Optimal Time: Midnight to early morning (00:00 - 06:00 EST)
+00 08 * * * $WSPR_RECV_PATH/kill-receive.sh && $WSPR_RECV_PATH/wspr-receiver.sh 3.5686M "80 meters"
+
+# Frequency: 10.1387M
+# Band: 30 meters
+# Optimal Time: Evening and early morning (19:00 - 09:00 EST)
+00 11 * * * $WSPR_RECV_PATH/kill-receive.sh && $WSPR_RECV_PATH/wspr-receiver.sh 10.1387M "30 meters"
+
+# Transmit wsprd 20
+# Optimal Time: Early morning and midday (05:00 and 18:00 EST)
+00 14 * * * $WSPR_RECV_PATH/kill-transmit.sh && $WSPR_RECV_PATH/start-transmit.sh
+
+# Frequency: 21.0946M
+# Band: 15 meters
+# Optimal Time: Midday (10:00 - 14:00 EST)
+00 15 * * * $WSPR_RECV_PATH/kill-receive.sh && $WSPR_RECV_PATH/wspr-receiver.sh 21.0946M "15 meters"
+
+# Frequency: 28.1246M
+# Band: 10 meters
+# Optimal Time: Late morning to early afternoon (10:00 - 14:00 EST)
+00 17 * * * $WSPR_RECV_PATH/kill-receive.sh && $WSPR_RECV_PATH/wspr-receiver.sh 28.1246M "10 meters"
+
+# Frequency: 50.293M
+# Band: 6 meters
+# Optimal Time: Late morning to afternoon (10:00 - 15:00 EST)
+00 18 * * * $WSPR_RECV_PATH/kill-receive.sh && $WSPR_RECV_PATH/wspr-receiver.sh 50.293M "6 meters"
+
+# Frequency: 18.1046M
+# Band: 17 meters
+# Optimal Time: Midday (10:00 - 16:00 EST)
+00 19 * * * $WSPR_RECV_PATH/kill-receive.sh && $WSPR_RECV_PATH/wspr-receiver.sh 18.1046M "17 meters"
+
+# Frequency: 144.489M
+# Band: 2 meters
+# Optimal Time: Midday to early evening (11:00 - 16:00 EST)
+00 20 * * * $WSPR_RECV_PATH/kill-receive.sh && $WSPR_RECV_PATH/wspr-receiver.sh 144.489M "2 meters"
+
+# Frequency: 14.0956M
+# Band: 20 meters
+# Optimal Time: Morning to early evening (09:00 - 18:00 EST)
+00 21 * * * $WSPR_RECV_PATH/kill-receive.sh && $WSPR_RECV_PATH/wspr-receiver.sh 14.0956M "20 meters"
+
+# Transmit wsprd 20
+# Optimal Time: Early morning and midday (05:00 and 18:00 EST)
+00 22 * * * $WSPR_RECV_PATH/kill-transmit.sh && $WSPR_RECV_PATH/start-transmit.sh

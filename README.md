@@ -6,80 +6,120 @@ WSPR implements a protocol designed for probing potential propagation paths with
 
 We will mainly work on the receiving WSPR transmissions here but the Raspberry Pi can also be used as [WSPR beacon](https://tapr.org/?p=5339).
 
-## Install NTPsec
-An accurate clock is essential both for transmission, and decoding of received signals. 
- 
-NTPsec is an excellent option if you want to run a Stratum 1 server on the Raspberry PI. This [HOWTO](https://www.ntpsec.org/white-papers/stratum-1-microserver-howto/) gives complete instructions for building a headless Stratum 1 timeserver using a Raspberry Pi, a GPS HAT, and NTPsec. Total parts cost should be about $110. Beginner-level light soldering may be required.
-
 ## Insall rtl-sdr
 
 It seems that the newest kernel includes a DVB driver for the dongle as a TV receiver. We do not require this for our purposed so we will create a config file to blacklist it.
 
-```
-$ cd ~
-$ sudo apt-get install git git-core cmake build-essential libusb-1.0-0-dev libfftw3-dev curl libcurl4-gnutls-dev
-
-$ cat <<EOF >blacklist-rtl.conf
-blacklist dvb_usb_rtl28xxu
-blacklist rtl2832
-blacklist rtl2830
-EOF
-$ sudo mv blacklist-rtl.conf /etc/modprobe.d
-
-$ git clone git://git.osmocom.org/rtl-sdr.git
-$ cd rtl-sdr
-$ mkdir build
-$ cd build
-$ cmake ../ -DDETACH_KERNEL_DRIVER=ON -DINSTALL_UDEV_RULES=ON
-$ make
-$ sudo make install
-$ sudo ldconfig
-$ sudo cp ./rtl-sdr/rtl-sdr.rules /etc/udev/rules.d/
-$ sudo reboot
-```
-
-Now you should be able to run the ```rtl_test``` command to test as a non-root user. 
-
-## Install rtlsdr-wsprd
-
-Follow instructions to install rtlsdr-wsprd by Guenael (VA2GKA) at https://github.com/Guenael/rtlsdr-wsprd, here are the commands:
-
-```
-cd ~
-$ git clone https://github.com/Guenael/rtlsdr-wsprd
-$ cd rtlsdr-wsprd/
-$ sudo make
-```
-
-Turn off HDMI to reduce local EMI
-
-```
-/opt/vc/bin/tvservice -o
-```
-
-You can test rtlsdr_wsprd after replacing your callsign and grid locator values in the following command:
-
-```
-$ ./rtlsdr_wsprd -f 14.0956M -c <your-callsign> -l <your-grid-locator> -d 2 -S
-``` 
-
 ## Multiple band switching with cron jobs
 
  1. Update and add the information in ```environment.sample``` file to ```/etc/environment```. This makes the environment variable accessible to the scripts executed by cron.
- ```
-  CALL="K0DEV"
-  GAIN="-a 1"
-  LOCATOR="FM18jv"
-  WSPR_RECV_PATH="/home/pi/wspr-receiver"
-  LOGPATH="$WSPR_RECV_PATH/wsprd-log/wsprd"
-  RTLSDR_WSPRD_PATH="/home/pi/rtlsdr-wsprd"
-  ```
- 2. Add the entries in the ```crontab.sample``` by executing the command ```sudo crontab -e```
- 
+
+```bash
+CALL="K0DEV"
+GAIN="-a 1"
+LOCATOR="FM18jv"
+WSPR_RECV_PATH="/home/pi/wspr-receiver"
+LOGPATH="$WSPR_RECV_PATH/wsprd-log/wsprd"
+RTLSDR_WSPRD_PATH="/home/pi/rtlsdr-wsprd"
+```
+
+ 1. Add the entries in the ```crontab.sample``` by executing the command ```sudo crontab -e```
+
+## Experimental EST timezone times
+
+```mermaid
+gantt
+    title Optimal Transmission Times for Each Band (EST & UTC)
+    dateFormat  HH:mm
+    axisFormat  %H:%M
+
+    section Optimal Times (EST)
+    Optimal Window 160 meters :active, 00:00, 06h    
+    160 meters :opt1, 00:00, 03h
+
+    Optimal Window 80 meters :active, 00:00, 06h
+    80 meters :opt1, 03:00, 03h
+
+    Optimal Window 20 meters :active, 09:00, 09h    
+    20 meters :opt1, 16:00, 01h
+    Transmit :opt1, 09:00, 01h
+    Transmit :opt2, 17:00, 03h
+
+    Optimal Window 60 meters :active, 22:00, 02h
+    Optimal Window 61 meters :active, 00:00, 06h        
+    60 meters :opt1, 22:00, 02h
+
+    Optimal Window 40 meters :active, 20:00, 4h
+    Optimal Window 40 meters :active, 00:00, 9h
+    40 meters :opt1, 20:00, 2h
+
+    Optimal Window 30 meters :active, 19:00, 5h
+    Optimal Window 30 meters :active, 00:00, 9h
+    30 meters :opt1, 06:00, 3h
+    
+    Optimal Window 15 meters :active, 10:00, 04h
+    15 meters :opt1, 10:00, 02h
+
+    Optimal Window 17 meters :active, 10:00, 06h
+    17 meters :opt1, 14:00, 01h
+
+    Optimal Window 10 meters :active, 10:00, 04h
+    10 meters :opt1, 12:00, 01h
+
+    Optimal Window 2 meters :active, 11:00, 05h
+    2 meters :opt1, 15:00, 01h
+
+    Optimal Window 6 meters :active, 10:00, 05h
+    6 meters :opt1, 13:00, 01h
+
+    section Optimal Times (UTC)
+    Optimal Window 160 meters :active, 05:00, 06h
+    160 meters :opt1, 05:00, 03h
+
+    Optimal Window 80 meters :active, 05:00, 06h
+    80 meters :opt1, 08:00, 03h
+
+    Optimal Window 20 meters :active, 14:00, 09h
+    Transmit :opt1, 14:00, 01h
+    Transmit :opt2, 22:00, 03h
+    20 meters :opt1, 21:00, 01h
+    
+    Optimal Window 60 meters :active, 03:00, 02h
+    Optimal Window 60 meters :active, 05:00, 06h    
+    60 meters :opt1, 03:00, 02h
+    
+    Optimal Window 40 meters :active, 01:00, 4h
+    Optimal Window 40 meters :active, 05:00, 9h
+    40 meters :opt1, 01:00, 2h
+    
+    Optimal Window 30 meters :active, 00:00, 5h
+    Optimal Window 30 meters :active, 05:00, 9h
+    30 meters :opt1, 11:00, 3h
+    
+    Optimal Window 15 meters :active, 15:00, 04h
+    15 meters :opt1, 15:00, 02h
+    
+    Optimal Window 17 meters :active, 15:00, 06h
+    17 meters :opt1, 19:00, 01h
+    
+    Optimal Window 10 meters :active, 15:00, 04h
+    10 meters :opt1, 17:00, 01h
+    
+    Optimal Window 2 meters :active, 16:00, 05h
+    2 meters :opt1, 20:00, 01h
+    
+    Optimal Window 6 meters :active, 15:00, 05h    
+    6 meters :opt1, 18:00, 01h
+```
+
+## Transmit
+
+[Wsprrypi](https://github.com/sharjeelaziz/wsprrypi)
+
 ## References
- - [TAPR WSPR on 20, 30 and 40 Meters](https://tapr.org/?p=5339)
- - [Stratum-1-Microserver HOWTO](https://www.ntpsec.org/white-papers/stratum-1-microserver-howto/)
- - [rtl-sdr](https://osmocom.org/projects/rtl-sdr/wiki)
- - [rtlsdr-wsprd](https://github.com/Guenael/rtlsdr-wsprd)
- - [Tutorial WSPR reception band change with RTLSDR](https://it9ybg.blogspot.com/2018/02/tutorial-wspr-reception-band-change.html)
- 
+
+- [TAPR WSPR on 20, 30 and 40 Meters](https://tapr.org/?p=5339)
+- [Stratum-1-Microserver HOWTO](https://www.ntpsec.org/white-papers/stratum-1-microserver-howto/)
+- [rtl-sdr](https://osmocom.org/projects/rtl-sdr/wiki)
+- [rtlsdr-wsprd](https://github.com/Guenael/rtlsdr-wsprd)
+- [Tutorial WSPR reception band change with RTLSDR](https://it9ybg.blogspot.com/2018/02/tutorial-wspr-reception-band-change.html)
